@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>眾典路跑變現計劃 - 簡報</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #22d3ee;
+            --text-light: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow: hidden;
+        }
+
+        .container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-snap-align: start;
+            padding: 4rem;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.05) 0%, transparent 70%);
+        }
+
+        .content {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .content.wide-content {
+            max-width: 1100px;
+        }
+
+        .slide.active .content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            border: 1px solid var(--accent);
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
+
+        .divider {
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 0 auto 3rem;
+            border-radius: 2px;
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .side-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .side-nav ul {
+            list-style: none;
+        }
+
+        .side-nav li {
+            width: 12px;
+            height: 12px;
+            border: 1px solid var(--text-dim);
+            border-radius: 50%;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .side-nav li.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.5);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .mouse {
+            width: 20px;
+            height: 35px;
+            border: 2px solid var(--text-dim);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .mouse::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--text-dim);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 6px;
+            border-radius: 50%;
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                opacity: 1;
+                top: 6px;
+            }
+
+            100% {
+                opacity: 0;
+                top: 20px;
+            }
+        }
+
+        /* Slide Specific Styles */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+            border-left: 5px solid var(--accent);
+            padding-left: 1.5rem;
+        }
+
+        .section-subtitle {
+            text-align: left;
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .analysis-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .analysis-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .analysis-card ul {
+            list-style: none;
+        }
+
+        .analysis-card li {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight-red {
+            color: #f87171;
+            font-weight: 700;
+        }
+
+        .margin-comparison {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .compare-item .value {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .compare-item .value.green {
+            color: #4ade80;
+        }
+
+        .vs-badge {
+            background: #fff;
+            color: #000;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .insight {
+            font-style: italic;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .monetization-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .monetization-column {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column-header {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            color: #f59e0b;
+        }
+
+        .coach .column-header {
+            color: #22d3ee;
+        }
+
+        .model-tier {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid transparent;
+        }
+
+        .model-tier.free {
+            border-left-color: #94a3b8;
+        }
+
+        .model-tier.paid {
+            border-left-color: #22d3ee;
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .model-tier.advanced {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .tier-label {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-stats {
+            font-size: 1rem;
+            color: var(--text-dim);
+        }
+
+        .highlight {
+            color: #22d3ee;
+            font-weight: 700;
+        }
+
+        .highlight-orange {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        .column-insight {
+            margin-top: auto;
+            font-size: 1rem !important;
+            color: #f59e0b;
+            font-weight: 600;
+            text-align: center;
+            padding-top: 2rem;
+        }
+
+        /* Profit Sharing Slide Styles */
+        .profit-sharing-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .summary-banner {
+            background: rgba(245, 158, 11, 0.05);
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+            border-radius: 100px;
+            padding: 1.25rem 3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0 auto 1.5rem;
+            max-width: fit-content;
+        }
+
+        .summary-label {
+            font-size: 1.25rem;
+            color: #fff;
+        }
+
+        .summary-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f59e0b;
+        }
+
+        .profit-row {
+            display: flex;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            gap: 2rem;
+            text-align: left;
+            border-left-width: 6px;
+        }
+
+        .profit-row.coach {
+            border-left-color: #22d3ee;
+        }
+
+        .profit-row.travel {
+            border-left-color: #f59e0b;
+        }
+
+        .profit-row.support {
+            border-left-color: #4ade80;
+        }
+
+        .row-header {
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .row-header h4 {
+            font-size: 1.25rem;
+            color: #22d3ee;
+            margin-bottom: 0.5rem;
+        }
+
+        .travel .row-header h4 {
+            color: #f59e0b;
+        }
+
+        .support .row-header h4 {
+            color: #4ade80;
+        }
+
+        .row-header p {
+            font-size: 0.95rem !important;
+            color: var(--text-dim);
+            margin-bottom: 0;
+        }
+
+        .row-participants {
+            flex: 1;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .participant-card {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .p-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 0.25rem;
+        }
+
+        .p-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #22d3ee;
+        }
+
+        .travel .p-value {
+            color: #f59e0b;
+        }
+
+        .support .p-value {
+            color: #4ade80;
+        }
+
+        .p-value.highlight-red {
+            color: #f87171;
+        }
+
+        .travel-overview {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        .revenue-box {
+            background: #000;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .revenue-box.estimate {
+            border-left: 4px solid #22d3ee;
+        }
+
+        .revenue-box.profit {
+            border-left: 4px solid #4ade80;
+        }
+
+        .box-label {
+            font-size: 1rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .big-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .big-value.green {
+            color: #4ade80;
+        }
+
+        .ecosystem-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .core-team {
+            flex: 1;
+        }
+
+        .member-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .member-card.primary {
+            border: 2px solid #22d3ee;
+        }
+
+        .urgent-need {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .urgent-need span {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .connector-hub {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .complement-label {
+            color: #f59e0b;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .arrow-dual {
+            font-size: 3rem;
+            color: var(--text-dim);
+        }
+
+        .member-box.dashed {
+            border: 1px dashed #22d3ee;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .member-box h4 {
+            margin-bottom: 0.5rem;
+            color: #22d3ee;
+        }
+
+        .partners-stack {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .partner-bar {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .partner-bar.requirement {
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-color: #4ade80;
+        }
+
+        .partner-bar.travel {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+        }
+
+        .partner-bar.gym {
+            background: rgba(34, 211, 238, 0.1);
+            border-left: 4px solid #22d3ee;
+        }
+
+        .partner-bar.health {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 4px solid #ec4899;
+        }
+
+        .support-bar {
+            margin-top: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            border: 1px solid var(--glass-border);
+        }
+
+        .support-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .support-content p {
+            font-size: 1rem !important;
+            margin-bottom: 0;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .insight-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .insight-card.traffic {
+            border-left: 4px solid #22d3ee;
+        }
+
+        .insight-card.service {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .insight-card h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .insight-list {
+            list-style: none;
+        }
+
+        .insight-list li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .complement-banner {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #4ade80;
+            border-radius: 12px;
+            color: #4ade80;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+        }
+
+        /* Naming Interaction Slide Styles */
+        .interaction-card {
+            background: rgba(245, 158, 11, 0.08);
+            border: 2px dashed rgba(245, 158, 11, 0.4);
+            border-radius: 24px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .interaction-card::before {
+            content: '🦆';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 5rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .interaction-text {
+            font-size: 1.8rem;
+            color: #fff;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .naming-highlight {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #f59e0b;
+            display: block;
+            margin-top: 1.5rem;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .role-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .role-tag {
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-size: 1.4rem;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .role-tag:hover {
+            background: rgba(34, 211, 238, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="side-nav">
+        <ul>
+            <li class="active" data-slide="0"></li>
+            <li data-slide="1"></li>
+            <li data-slide="2"></li>
+            <li data-slide="3"></li>
+            <li data-slide="4"></li>
+            <li data-slide="5"></li>
+            <li data-slide="6"></li>
+            <li data-slide="7"></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="slide-0" class="slide">
+            <div class="content">
+                <span class="badge">50 萬客資活化提案</span>
+                <h1 class="main-title">眾典路跑平台變現計劃</h1>
+                <p class="subtitle">突破 1% 手續費天花板，啟動高毛利數據變現</p>
+                <div class="divider"></div>
+                <div class="footer-info">
+                    <p>提案人：第十四小組 模擬商戰</p>
+                    <p>日期：2026.03.24</p>
+                </div>
+                <div class="scroll-hint">
+                    <div class="mouse"></div>
+                    <span>向下滾動</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-1" class="slide">
+            <div class="content wide-content">
+                <h2 class="section-title">現狀盤點：眾點路跑與市場標準的巨大落差</h2>
+                <div class="analysis-grid">
+                    <div class="analysis-card self-organized">
+                        <h3>🏆 官方自辦賽事 (7場/年)</h3>
+                        <ul>
+                            <li>年成交額 (GMV)：<strong>約 700 萬</strong></li>
+                            <li>毛利率：<strong>35%</strong></li>
+                            <li>獲利能力：<strong>約 245 萬</strong></li>
+                        </ul>
+                    </div>
+                    <div class="analysis-card agency">
+                        <h3>🎫 平台代售賽事 (93場/年)</h3>
+                        <ul>
+                            <li>年成交額 (GMV)：<strong>約 1.39 億</strong></li>
+                            <li>平台純利抽成：<span class="highlight-red">僅 1%</span></li>
+                            <li>痛點：經手億級金流，每張票僅賺 <strong>15元</strong>。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="margin-comparison">
+                    <div class="comparison-row">
+                        <div class="compare-item">
+                            <span>現有最高毛利</span>
+                            <div class="value">35%</div>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="compare-item">
+                            <span>市場對手平均毛利</span>
+                            <div class="value green">64%</div>
+                        </div>
+                    </div>
+                    <p class="insight">我們擁有精準客資，卻在做最辛苦的體力活。必須轉向數據變現！</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-2" class="slide">
+            <div class="content wide-content">
+                <h2 class="section-title">商業洞察：為何要啟動 BD 合作？</h2>
+                <p class="section-subtitle">解決雙方「不想增加費用率」的焦慮，創造資源槓桿</p>
+                <div class="insight-grid">
+                    <div class="insight-card traffic">
+                        <h3>🏃‍♂️ 眾點路跑 (流量端)</h3>
+                        <ul class="insight-list">
+                            <li>🎯 <strong>目標：</strong>極大化提升毛利率</li>
+                            <li>❌ <strong>限制：</strong>不想提升費用率 (開發成本高)</li>
+                            <li>💎 <strong>籌碼：</strong>50 萬精準運動會員名單</li>
+                        </ul>
+                    </div>
+                    <div class="insight-card service">
+                        <h3>🤝 變現夥伴 (服務端)</h3>
+                        <ul class="insight-list">
+                            <li>🎯 <strong>目標：</strong>獲取精準客源與訂單</li>
+                            <li>❌ <strong>限制：</strong>不想花大錢行銷 (ROI焦慮)</li>
+                            <li>💎 <strong>籌碼：</strong>高客單價、高毛利的服務體系</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="complement-banner">
+                    <p>✨ <strong>完美互補：</strong>零行銷風險，做大蛋糕。不需額外增加費用率，達成無本增長。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-3" class="slide">
+            <div class="content wide-content">
+                <h2 class="section-title">團隊陣容與資源生態圈</h2>
+
+                <div class="ecosystem-container">
+                    <div class="core-team">
+                        <div class="member-card primary">
+                            <h3>👑 冠佐 (眾點路跑)</h3>
+                            <p>掌握 50 萬精準客資與資源池。</p>
+                            <div class="urgent-need">
+                                <span>急需：</span>高毛利變現服務
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="connector-hub">
+                        <div class="complement-label">資源互補</div>
+                        <div class="arrow-dual">⇄</div>
+                        <div class="member-box dashed">
+                            <h4>鴨鴨 (企劃統籌)</h4>
+                            <p>數據分析與商務橋樑</p>
+                        </div>
+                    </div>
+
+                    <div class="partners-stack">
+                        <div class="partner-bar requirement">夥伴需求：精準行銷資源</div>
+                        <div class="partner-bar travel">✈️ <strong>旅行社賽道：</strong> 濬騰 (行程資源)、雅利 (伴手禮業務)</div>
+                        <div class="partner-bar gym">🏋️‍♂️ <strong>健身房賽道：</strong> 品螢 (教練資源與課程管理)</div>
+                        <div class="partner-bar health">💊 <strong>健康食品賽道：</strong> 政祐 (長青族客製化保健食品)</div>
+                    </div>
+                </div>
+
+                <div class="support-bar">
+                    <div class="support-content">
+                        <h3>🛠 水平支持：紅福 (數位印刷) & 芳育 (動態錄影)</h3>
+                        <p>提供賽事現場物料與高質感行銷素材製作。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-4" class="slide">
+            <div class="content wide-content">
+                <h2 class="section-title">具體怎麼賺錢？ (轉換價值對比)</h2>
+
+                <div class="monetization-grid">
+                    <div class="monetization-column coach">
+                        <h3 class="column-header">👟 教練課程變現</h3>
+                        <div class="model-tier free">
+                            <div class="tier-label">🆓 <strong>免費：</strong> 訓練知識與小技巧分享</div>
+                            <div class="tier-stats">解決活動普及知識問題 & 平台品牌宣傳</div>
+                        </div>
+                        <div class="model-tier paid">
+                            <div class="tier-label">💰 <strong>付費：</strong> 線上課程 (3,000元)</div>
+                            <div class="tier-stats">轉化 40% ➜ <span class="highlight">營收 6 億元</span></div>
+                        </div>
+                        <div class="model-tier advanced">
+                            <div class="tier-label">💎 <strong>進階：</strong> 專業培訓課程 (30,000元)</div>
+                            <div class="tier-stats">轉化 10% ➜ <span class="highlight-orange">營收 15 億元</span></div>
+                        </div>
+                        <p class="column-insight">🔥 課程分潤威力，能讓平台淨利翻百倍</p>
+                    </div>
+
+                    <div class="monetization-column travel">
+                        <h3 class="column-header">🚌 國內旅跑行程</h3>
+                        <div class="travel-overview">
+                            <p>客單價：4,500 元</p>
+                            <p>目標轉化：單場 500 人加購</p>
+                        </div>
+                        <div class="revenue-box estimate">
+                            <div class="box-label">🎯 全年營收推估 (100場)：</div>
+                            <div class="big-value">2.25 億元</div>
+                        </div>
+                        <div class="revenue-box profit">
+                            <div class="box-label">💸 平台無本獲利 (300元/人)：</div>
+                            <div class="big-value green">1,500 萬元</div>
+                        </div>
+                        <p class="column-insight">🔥 鎖定參賽者剛需，穩賺千萬淨利</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-5" class="slide">
+            <div class="content wide-content">
+                <h2 class="section-title" style="color: #22d3ee; border-bottom: 2px solid #22d3ee;">生態圈分潤機制與營收預估</h2>
+
+                <div class="summary-banner">
+                    <span class="summary-label">🎯 生態圈年度總創收預估：</span>
+                    <span class="summary-value">突破 23.33 億元</span>
+                </div>
+
+                <div class="profit-sharing-container">
+                    <!-- Row 1: Coach -->
+                    <div class="profit-row coach">
+                        <div class="row-header">
+                            <h4>👟 教練課程賽道 (分潤 30/30/40)</h4>
+                            <p>線上(6億) + 進階(15億) = 21 億總量池</p>
+                        </div>
+                        <div class="row-participants">
+                            <div class="participant-card">
+                                <span class="p-label">冠佐 (30%)</span>
+                                <span class="p-value">6.3 億</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label">鴨鴨 (30%)</span>
+                                <span class="p-value">6.3 億</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label">品螢 (40%)</span>
+                                <span class="p-value">8.4 億</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Travel -->
+                    <div class="profit-row travel">
+                        <div class="row-header">
+                            <h4>✈️ 國內旅跑賽道 (50,000 人次參與)</h4>
+                            <p>鎖定參賽者剛需，穩定現金流</p>
+                        </div>
+                        <div class="row-participants">
+                            <div class="participant-card">
+                                <span class="p-label">濬騰 (旅業)</span>
+                                <span class="p-value">2.1 億</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label">冠佐 (分潤)</span>
+                                <span class="p-value">750 萬</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label">鴨鴨 (企劃)</span>
+                                <span class="p-value">750 萬</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label" style="color: #f87171;">雅利 (伴手禮)</span>
+                                <span class="p-value highlight-red">800 萬</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Support -->
+                    <div class="profit-row support">
+                        <div class="row-header">
+                            <h4>🛠 水平支持服務 (7場官方賽事 + 課程拍攝)</h4>
+                            <p>提供物料與行銷素材支持</p>
+                        </div>
+                        <div class="row-participants">
+                            <div class="participant-card">
+                                <span class="p-label">紅福 (印刷)</span>
+                                <span class="p-value">18.9 萬</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label">芳育 (攝影)</span>
+                                <span class="p-value">23.9 萬</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-6" class="slide">
+            <div class="content">
+                <span class="badge"
+                    style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: #f59e0b;">特別請求</span>
+                <div class="interaction-card">
+                    <p class="interaction-text">
+                        在立即行動前，鴨鴨有個困擾想請問大家。<br>
+                        由於鴨鴨要更換專業別，就依照這樣的專業呈現...
+                        <span class="naming-highlight">開放大家幫我的專業別命名！</span>
+                    </p>
+                    <div class="role-tags">
+                        <span class="role-tag">數據分析師</span>
+                        <span class="role-tag">商務開發 BD</span>
+                        <span class="role-tag">企劃統籌</span>
+                        <span class="role-tag">流量變現專家</span>
+                        <span class="role-tag">...等？</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="slide-7" class="slide">
+            <div class="content">
+                <span class="badge">立即行動</span>
+                <h2>準備好開啟商戰藍圖了嗎？</h2>
+                <p>將 50 萬流量轉化為真實商業價值，就在此一舉。</p>
+                <button class="cta-button">立即聯繫專案窗口</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('.container');
+            const slides = document.querySelectorAll('.slide');
+            const navItems = document.querySelectorAll('.side-nav li');
+
+            const observerOptions = {
+                root: container,
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        slides.forEach(s => s.classList.remove('active'));
+                        entry.target.classList.add('active');
+
+                        const slideIndex = entry.target.id.split('-')[1];
+                        updateNav(slideIndex);
+                    }
+                });
+            }, observerOptions);
+
+            slides.forEach(slide => observer.observe(slide));
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = item.getAttribute('data-slide');
+                    const targetSlide = document.getElementById(`slide-${index}`);
+                    targetSlide.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            function updateNav(index) {
+                navItems.forEach((item, i) => {
+                    if (i == index) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                const x = (window.innerWidth / 2 - e.pageX) / 50;
+                const y = (window.innerHeight / 2 - e.pageY) / 50;
+
+                const activeContent = document.querySelector('.slide.active .content');
+                if (activeContent) {
+                    activeContent.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
