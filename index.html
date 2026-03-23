@@ -209,7 +209,7 @@
 
         .analysis-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-bottom: 3rem;
         }
@@ -241,11 +241,92 @@
             font-weight: 700;
         }
 
+        .bottom-analysis-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
         .margin-comparison {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 2rem;
-            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .composition-chart {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .composition-chart h3 {
+            margin-bottom: 2rem;
+            color: var(--accent);
+            font-size: 1.3rem;
+            align-self: flex-start;
+        }
+
+        .chart-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .pie-chart {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #f59e0b 0% 54.4%, 
+                #22d3ee 54.4% 92.4%, 
+                #4ade80 92.4% 100%
+            );
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .pie-chart::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: var(--bg-dark);
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 0.8rem;
         }
 
         .comparison-row {
@@ -281,8 +362,8 @@
 
         .monetization-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
             margin-top: 1.5rem;
         }
 
@@ -829,6 +910,14 @@
                             <li>獲利能力：<strong>約 245 萬</strong></li>
                         </ul>
                     </div>
+                    <div class="analysis-card chip-timing">
+                        <h3>⏱️ 芯片計時 (70場/年)</h3>
+                        <ul>
+                            <li>年收入：<strong>1000 萬</strong></li>
+                            <li>毛利率：<strong>50%</strong></li>
+                            <li>獲利能力：<strong>500 萬</strong></li>
+                        </ul>
+                    </div>
                     <div class="analysis-card agency">
                         <h3>🎫 平台代售賽事 (93場/年)</h3>
                         <ul>
@@ -838,19 +927,41 @@
                         </ul>
                     </div>
                 </div>
-                <div class="margin-comparison">
-                    <div class="comparison-row">
-                        <div class="compare-item">
-                            <span>現有最高毛利</span>
-                            <div class="value">35%</div>
+                <div class="bottom-analysis-row">
+                    <div class="margin-comparison">
+                        <div class="comparison-row">
+                            <div class="compare-item">
+                                <span>現有平均毛利</span>
+                                <div class="value">48.08%</div>
+                            </div>
+                            <div class="vs-badge">VS</div>
+                            <div class="compare-item">
+                                <span>市場對手平均毛利</span>
+                                <div class="value green">64%</div>
+                            </div>
                         </div>
-                        <div class="vs-badge">VS</div>
-                        <div class="compare-item">
-                            <span>市場對手平均毛利</span>
-                            <div class="value green">64%</div>
+                        <p class="insight">我們擁有精準客資，卻在做最辛苦的體力活。必須轉向數據變現！</p>
+                    </div>
+                    <div class="composition-chart">
+                        <h3>營收組成佔比</h3>
+                        <div class="chart-content">
+                            <div class="pie-chart"></div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #f59e0b;"></div>
+                                    <span>芯片計時 (54.4%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #22d3ee;"></div>
+                                    <span>官方自辦 (38.0%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #4ade80;"></div>
+                                    <span>平台代售 (7.6%)</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p class="insight">我們擁有精準客資，卻在做最辛苦的體力活。必須轉向數據變現！</p>
                 </div>
             </div>
         </section>
@@ -909,9 +1020,9 @@
 
                     <div class="partners-stack">
                         <div class="partner-bar requirement">夥伴需求：精準行銷資源</div>
-                        <div class="partner-bar travel">✈️ <strong>旅行社賽道：</strong> 濬騰 (行程資源)、雅利 (伴手禮業務)</div>
+                        <div class="partner-bar travel">✈️ <strong>旅行社賽道：</strong> 濬騰 (行程資源)</div>
                         <div class="partner-bar gym">🏋️‍♂️ <strong>健身房賽道：</strong> 品螢 (教練資源與課程管理)</div>
-                        <div class="partner-bar health">💊 <strong>健康食品賽道：</strong> 政祐 (長青族客製化保健食品)</div>
+                        <div class="partner-bar health">💊 <strong>健康食品賽道：</strong> 政祐 (長青族客製化保健食品)、雅利 (伴手禮)</div>
                     </div>
                 </div>
 
@@ -962,6 +1073,23 @@
                         </div>
                         <p class="column-insight">🔥 鎖定參賽者剛需，穩賺千萬淨利</p>
                     </div>
+
+                    <div class="monetization-column health">
+                        <h3 class="column-header" style="color: #4ade80;">💊 保健與生活用品</h3>
+                        <div class="travel-overview">
+                            <p>客單價：320 - 2,500 元</p>
+                            <p>目標：50,000 人次參與</p>
+                        </div>
+                        <div class="revenue-box estimate" style="border-left-color: #4ade80;">
+                            <div class="box-label">🎯 年度營收推估：</div>
+                            <div class="big-value">5,000 萬元</div>
+                        </div>
+                        <div class="revenue-box profit" style="border-left-color: #f87171;">
+                            <div class="box-label">💰 雅利果乾毛利 (320元/包)：</div>
+                            <div class="big-value highlight-red">1,600 萬元</div>
+                        </div>
+                        <p class="column-insight" style="color: #4ade80;">🔥 高毛利導購，無須增加費用率</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -972,7 +1100,7 @@
 
                 <div class="summary-banner">
                     <span class="summary-label">🎯 生態圈年度總創收預估：</span>
-                    <span class="summary-value">突破 23.33 億元</span>
+                    <span class="summary-value">突破 23.41 億元</span>
                 </div>
 
                 <div class="profit-sharing-container">
@@ -1002,7 +1130,7 @@
                     <div class="profit-row travel">
                         <div class="row-header">
                             <h4>✈️ 國內旅跑賽道 (50,000 人次參與)</h4>
-                            <p>鎖定參賽者剛需，穩定現金流</p>
+                            <p>行程 2.25 億 (濬騰 2.1 億 + 平台 1,500 萬)</p>
                         </div>
                         <div class="row-participants">
                             <div class="participant-card">
@@ -1017,12 +1145,27 @@
                                 <span class="p-label">鴨鴨 (企劃)</span>
                                 <span class="p-value">750 萬</span>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Health Food -->
+                    <div class="profit-row health">
+                        <div class="row-header">
+                            <h4 style="color: #4ade80;">🥦 健康食品賽道 (數據導購模式)</h4>
+                            <p>鎖定運動後營養補充與長青保健剛需</p>
+                        </div>
+                        <div class="row-participants">
                             <div class="participant-card">
-                                <span class="p-label" style="color: #f87171;">雅利 (伴手禮)</span>
-                                <span class="p-value highlight-red">800 萬</span>
+                                <span class="p-label">雅利 (1,600 萬)</span>
+                                <span class="p-value" style="color: #4ade80;">1,600 萬</span>
+                            </div>
+                            <div class="participant-card">
+                                <span class="p-label">政祐 (長青組)</span>
+                                <span class="p-value" style="color: #4ade80;">合作開發中</span>
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Row 3: Support -->
                     <div class="profit-row support">
